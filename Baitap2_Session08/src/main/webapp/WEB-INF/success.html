@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Success</title>
+</head>
+<body>
+
+<h2>Thêm nhân viên thành công</h2>
+
+</body>
+</html>
+
+<!--Nguyên nhân lỗi-->
+
+<!--Mặc dù trong Controller đã có:-->
+
+<!--@Valid @ModelAttribute("employee") EmployeeDto employee,-->
+<!--BindingResult bindingResult-->
+
+<!--và có kiểm tra:-->
+
+<!--if (bindingResult.hasErrors()) {-->
+<!--return "employee-form";-->
+<!--}-->
+
+<!--nhưng hệ thống vẫn bị 400 Bad Request vì:-->
+
+<!--Lý do chính-->
+<!--1. Sai thứ tự tham số-->
+
+<!--BindingResult phải đứng ngay sau object @Valid-->
+
+<!--Nếu không đúng thứ tự:-->
+
+<!--@Valid EmployeeDto employee,-->
+<!--Model model,-->
+<!--BindingResult bindingResult -->
+
+<!--➡ Spring không bind lỗi vào BindingResult-->
+<!--➡ ném ra MethodArgumentNotValidException-->
+<!--➡ trả về 400 Bad Request-->
+
+<!--2. Spring xử lý lỗi trước Controller-->
+
+<!--Khi validation fail:-->
+
+<!--Nếu không bắt được bằng BindingResult-->
+<!--Spring sẽ throw exception ngay-->
+
+<!--➡ Controller không chạy vào if (hasErrors())-->
+
+<!--Hệ quả-->
+<!--Không quay lại form-->
+<!--Không hiển thị lỗi-->
+<!--Mất dữ liệu nhập-->
+<!--UX rất tệ (HR phải bấm Back)-->
